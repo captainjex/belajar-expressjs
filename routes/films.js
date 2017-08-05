@@ -1,54 +1,16 @@
 var express = require('express')
 
-var Film = require('../models/film')
+var filmController = require('../controllers/film')
 
 var router = express.Router()
 
 //read crud
-router.get('/', function (req, res) {
-    Film.find({}, function (err, films) {
-        if(err){
-            res.json(err)
-        }
-        res.json(films)
-    })
-})
+router.get('/', filmController.index)
 
 //create crud
-router.post('/', function (req, res) {
-    console.log('isi requestnya: ', req.body);
-    var result = {
-        msg: 'gagal'
-    }
-
-    var film = new Film({
-        title : req.body.title,
-        year : req.body.year
-    })
-
-    film.save(function(err){
-        if(err){
-            result.msg = err
-        }else {
-            result.msg = 'Hore! Berhasil'
-        }
-
-        res.json(result)
-    })
-})
+router.post('/', filmController.create)
 
 //delete crud
-router.delete('/:filmId', function (req, res) {
-    console.log('mau ndelet', req.params.filmId);
-
-    Film.findByIdAndRemove(req.params.filmId, function (err) {
-        if(err){
-
-        }
-        res.json({
-            msg: 'terhapus'
-        })
-    })
-})
+router.delete('/:filmId', filmController.destroy)
 
 module.exports = router

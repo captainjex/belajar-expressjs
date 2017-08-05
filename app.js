@@ -6,7 +6,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/cobamongo');
+mongoose.Promise = global.Promise
+
+mongoose.connect('mongodb://localhost/cobamongo', {useMongoClient: true});
 
 var index = require('./routes/index');
 var users = require('./routes/users');
